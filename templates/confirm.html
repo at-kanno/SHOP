@@ -49,13 +49,12 @@
         </table>
 
 <form action="/updateX" method="POST">
-
+<br>
     {% if id == 0 %}
         <input type="submit" value="注文を確定する">
     {% else %}
         <input type="submit" value="更新">
     {% endif %}
-</form>
 
         <input type="hidden" name="lastname" value={{ lastname }} />
         <input type="hidden" name="firstname" value={{ firstname }} />
@@ -78,10 +77,10 @@
         <input type="hidden" name="user_id" value={{ user_id }} />
         <input type="hidden" name="order_no" value={{ order_no }} />
         <input type="hidden" name="id" value={{ id }} />
-</form>
 
-    <input type="button" onclick="history.back()" value="戻る"
-      style="background:#f2f2f2;color:black;border:1"></input>
+        <input type="button" onclick="history.back()" value="戻る"></input>
+    </form>
+
 
 </div>
 </div>
