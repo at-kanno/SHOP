@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head><meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+  <title>登録画面</title>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body bgcolor="#FFFFCC">
+
+    <center><h2><b><ul>登録画面</ul></b></h2></center>
+
+
+<form action="login" method="POST">
+    <center><table>
+        <tr>
+            <td><label>ログイン名</label>
+            <input type="text" name="id"></td>
+        </tr>
+        <tr>
+            <td><label>パスワード</label>
+            <input type="password" name="pw"></td>
+        </tr>
+    </table></center>
+
+    <div>
+        <center><input type="submit" value="ログイン"></center>
+    </div>
+</form>
+
+      <form method="post" action="/registration">
+                        <td>
+                            <input type="hidden" name="user_id" value="99"/>
+                            <input type="submit" value="注文手続き" name="next" class="default-btn" />
+                        </td>
+      </form>                    </tr>
+
+
+   　<form action="/registration" method="POST">
+     <input type="hidden" name="user_id" value=99 />
+        <input type="submit"value="送付先を入力する"
+               style="background:#f2f2f2;color:black;border:1">
+    </form>
+
+    <form action="/add" method="POST">
+        <input type="hidden" name="user_id" value=99 />
+        <input type="submit"value="最初の画面へ戻る"
+               style="background:#f2f2f2;color:black;border:1">
+    </form>
+
+</div>
+</body></body>
+</html>

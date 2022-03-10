@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>オリーブネット株式会社</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+  <p><h2>ショッピングカート</h2></p>
+   <div class="col-sm-12">
+        <div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+        </div>
+  {% if 'cart_item' in session %}
+   <p><a id="btnEmpty" href="{{ url_for('.empty_cart') }}" class="btn btn-danger">カートを空にする</a></p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>商品</th>
+                        <th>数量</th>
+                        <th class="text-center">単価</th>
+                        <th class="text-center">合計<br>金額</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+    {% for key, val in session['cart_item'].items() %}
+        {% set quantity = session['cart_item'][key]['quantity'] %}
+        {% set price = session['cart_item'][key]['price'] %}
+        {% set item_price = session['cart_item'][key]['total_price'] %}
+                    <tr>
+                        <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="/static/images/{{ session['cart_item'][key]['image'] }}" style="width: 72px; height: 72px;"> </a>
+                            <div class="media-body" style="padding-left:10px;">
+                                <h4 class="media-heading"> <a href="#">{{ session['cart_item'][key]['name'] | safe }}</a></h4>
+                                <h5 class="media-heading"> <a href="#">官野 厚</a>著</h5>
+                                <span>在庫: </span><span class="text-success"><strong>あり</strong></span>
+                            </div>
+                        </div></td>
+                        <td class="col-sm-1 col-md-1" style="text-align: center">
+                        <input type="email" class="form-control" value="{{ quantity }}">
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{ price }}円 </strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{ item_price }}円 </strong></td>
+                        <td class="col-sm-1 col-md-1">
+                        <a href="{{ url_for('.delete_product', code=session['cart_item'][key]['code']) }}" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"></span> 削除
+                        </a></td>
+                    </tr>
+    {% endfor %}
+                    <tr>
+                        <td colspan="4"><h5>合計数</h5></td>
+                        <td class="text-right"><h5><strong>{{ session['all_total_quantity'] }}</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><h3>合計金額</h3></td>
+                        <td colspan="2" class="text-right"><h3><strong>{{ session['all_total_price'] }}円</strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><h3>消費税</h3></td>
+                        <td colspan="2" class="text-right"><h3><strong>{{ session['tax'] }}円</strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><h3>支払金額</h3></td>
+                        <td colspan="2" class="text-right"><h3><strong>{{ session['amount'] }}円</strong></h3></td>
+                    </tr>
+                    <tr>
+      <form method="post" action="/add">
+                        <td colspan="4">
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> 買い物を続ける
+                        </button></td>
+      </form>>
+      <form method="post" action="/registration">
+                        <td>
+                            <input type="hidden" name="user_id" value="99"/>
+                            <input type="submit" value="注文手続き" name="next" class="default-btn" />
+<!--
+                        <button type="button" class="btn btn-success">
+                            注文手続き <span class="glyphicon glyphicon-play"></span>
+                        </button>
+-->                     </td>
+      </form>
+                    </tr>
+                </tbody>
+            </table>
+  {% else: %}
+   <div class="no-records">カートは空です。</div>
+  {% endif %}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

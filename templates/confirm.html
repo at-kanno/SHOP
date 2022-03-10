@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="ja" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head><meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+    <center><title>登録画面</title></center>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+{% if user_id <= 5 %}
+<body bgcolor="#FFCCCC">
+{% else %}
+<body bgcolor="#CCFFCC">
+{% endif %}
+
+<div class="content">
+    <center><h2><b><ul>確認画面</ul></b></h2></center>
+
+<div class="buttonwrap">
+
+
+　　<table border="1">
+    <tr><td colspan="2">送り先</td></tr>
+    <tr><td width="80">住所</td><td width="240" align="left" style="padding : 0px 10px;">〒{{ zipno }}<br>
+        {{ prefecture }}{{ city }}<br>
+        {{ town }}{{ building }}
+    </td></tr><tr><td>宛名</td><td align="left" style="padding : 0px 10px;">
+    {{ company }}&nbsp{{ department }}<br>
+    {{ lastname }}&nbsp{{ firstname }} 様&nbsp宛<br>
+    </td></tr><tr><td>電話番号</td><td align="left" style="padding : 0px 10px;">
+    {{ telno }}
+    </td></tr>
+    </table>
+    <br>
+    <table border="1">
+        <tr><td colspan="3">注文リスト</td></tr>
+        <tr><td width="230">商品名</td><td width="40">数量</td>
+            <td width="70">金額</td></tr>
+    {%  for product, amount, price in order_list %}
+    {% if product != 0 %}
+        <tr>
+            <td align="left" style="padding : 0px 10px;">
+                {{ product }}</td><td>{{ amount }}</td>
+                <td align="right" style="padding : 0px 10px;">{{ "{:,d}".format(price) }}</td>
+        </tr>
+    {% endif %}
+{% endfor %}
+        </table>
+
+<form action="/updateX" method="POST">
+
+    {% if id == 0 %}
+        <input type="submit" value="注文を確定する">
+    {% else %}
+        <input type="submit" value="更新">
+    {% endif %}
+</form>
+
+        <input type="hidden" name="lastname" value={{ lastname }} />
+        <input type="hidden" name="firstname" value={{ firstname }} />
+        <input type="hidden" name="lastyomi" value={{ lastyomi }} />
+        <input type="hidden" name="firstyomi" value={{ firstyomi }} />
+        <input type="hidden" name="tel1" value={{ tel1 }} />
+        <input type="hidden" name="tel2" value={{ tel2 }} />
+        <input type="hidden" name="tel3" value={{ tel3 }} />
+        <input type="hidden" name="telno" value={{ telno }} />
+        <input type="hidden" name="zip1" value={{ zip1 }} />
+        <input type="hidden" name="zip2" value={{ zip2 }} />
+        <input type="hidden" name="zipno" value={{ zipno }} />
+        <input type="hidden" name="company" value={{ company }} />
+        <input type="hidden" name="department" value={{ department }} />
+        <input type="hidden" name="prefecture" value={{ prefecture }} />
+        <input type="hidden" name="city" value={{ city }} />
+        <input type="hidden" name="town" value={{ town }} />
+        <input type="hidden" name="building" value={{ building }} />
+        <input type="hidden" name="mail_adr" value={{ mail_adr }} />
+        <input type="hidden" name="user_id" value={{ user_id }} />
+        <input type="hidden" name="order_no" value={{ order_no }} />
+        <input type="hidden" name="id" value={{ id }} />
+</form>
+
+    <input type="button" onclick="history.back()" value="戻る"
+      style="background:#f2f2f2;color:black;border:1"></input>
+
+</div>
+</div>
+</body></body>
+</html>

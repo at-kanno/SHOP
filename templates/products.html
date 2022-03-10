@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>オリーブネット株式会社</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<SCRIPT language="JavaScript">
+<!--
+function plus(chk){
+chk.value++;
+if (chk.value==11) {chk.value=10}
+}
+function minus(chk){
+chk.value--;
+if (chk.value==0) {chk.value=1}
+}
+
+var minusButton = document.getElementsByClassName("btn minus1")
+for (var i = 0; i < minusButton.length; i++) {
+minusButton[i].addEventListener("click", function(event){
+var quantity = document.getElementsByClassName("cart-quantity-input")
+for (var i = 0; i < quantity.length; i++) {
+var quantity = quantity[i].value--
+//console.log(quantity)
+ }
+})}
+
+// -->
+</SCRIPT>
+<body>
+
+<div class="container">
+    <div class="row">
+  <p><h2>ショッピングカート</h2></p>
+   <div class="col-sm-12">
+        <div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+        </div>
+  {% if 'cart_item' in session %}
+   <p><a id="btnEmpty" href="{{ url_for('.empty_cart') }}" class="btn default-btn">カートを空にする</a></p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>商品</th>
+                        <th>数量</th>
+                        <th class="text-center">単価</th>
+                        <th class="text-center">合計<br>金額</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+    {% for key, val in session['cart_item'].items() %}
+        {% set quantity = session['cart_item'][key]['quantity'] %}
+        {% set price = session['cart_item'][key]['price'] %}
+        {% set item_price = session['cart_item'][key]['total_price'] %}
+                    <tr>
+                        <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img class="ImgWidth" src="/static/images/{{ session['cart_item'][key]['image'] }}" style="width: 50px; height: 72px;"> </a>
+                            <div class="media-body" style="padding-left:10px;">
+                                <h5 class="media-heading"> <a href="#">{{ session['cart_item'][key]['name'] | safe }}</a></h5>
+                                <h6 class="media-heading"> <a href="#">官野 厚</a>著</h6>
+                                <span>在庫: </span><span class="text-success"><strong>あり</strong></span>
+                            </div>
+                        </div></td>
+                        <form>
+                        <td class="col-sm-1 col-md-1" style="text-align: center">
+                        <input type="email" class="form-control" readonly=True name="q1" value="{{ quantity }}">
+<!--
+                        <INPUT type=button value="＋" onClick="plus(this.form.q1)">
+                        <INPUT type=button value="－" onClick="minus(this.form.q1)">
+-->
+                        </td></form>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{ "{:,d}".format(price) }}円 </strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{ "{:,d}".format(item_price) }}円 </strong></td>
+                        <td class="col-sm-1 col-md-1">
+                        <a href="{{ url_for('.delete_product', code=session['cart_item'][key]['code']) }}" class="btn default-btn">
+                            <span class="glyphicon glyphicon-remove"></span> 削除
+                        </a></td>
+                    </tr>
+    {% endfor %}
+        {% set total = session['all_total_price'] %}
+        {% set tax = session['tax'] %}
+        {% set amount = session['amount'] %}
+                    <tr>
+                        <p><td colspan="1"><h6>合計金額  <strong>{{ "{:,d}".format(total) }}円</strong></h6></p></td>
+                    <br>
+                        <td colspan="1"><h6>消費税</h6></td>
+                        <td colspan="1" class="text-right"><h6><strong>{{ "{:,d}".format(tax) }}円</strong></h6></td>
+                    <br>
+                        <td colspan="1"><h5>請求金額</h5></td>
+                        <td colspan="1" class="text-right"><h5><strong>{{ "{:,d}".format(amount) }}円</strong></h5></td>
+                    </p></tr>
+                    <tr>
+
+<!--
+      <form method="post" action="/add">
+                        <td colspan="4">
+                            数量を変更した際には<input type="hidden" name="user_id" value="99"/>
+                            <input type="submit" value="再計算" name="next" class="default-btn" />
+      </form> を行ってください。
+-->
+      <form method="post" action="/registration">
+                        <td>
+                            <input type="hidden" name="user_id" value="99"/>
+                            <input type="submit" value="注文手続き" name="next" class="btn-danger" />
+                        </td>
+      </form>                    </tr>
+                </tbody>
+            </table>
+  {% else: %}
+   <div class="no-records">カートは空です。</div>
+  {% endif %}
+        </div>
+    </div>
+</div>
+
+<section class="our-publication pt-100 pb-70">
+            <div class="container">
+                <div class="section-header">
+                    <i class="fa fa-book"></i>
+                    <h2>取り扱い商品</h2>
+                    <p>ご検討いただきまして、ありがとうございます。</p>
+                </div>
+                <div class="row">
+
+    {% for product in products %}
+                    <div class="col-sm-6 col-lg-3">
+      <form method="post" action="/add">
+                        <div class="single-publication">
+                            <figure style="width:263px;">
+                                <a href="#">
+                                    <img class="ImgWidth" src="/static/images/{{ product[3] }}">
+                                </a>
+                           </figure>
+
+                            <div class="publication-content">
+                                <span class="category">{{ product[4] }}</span>
+                                <h3><a href="#">{{ product[2] }}</a></h3>
+                                <h4 class="price">{{ "{:,d}".format(product[5]) }}円</h4>
+                            </div>
+
+<!---                            <div class="add-to-cart">
+--->                        <div>
+        <input type="hidden" name="code" value="{{ product[1] }}"/>
+<!--
+        <input type="text" class="product-quantity" name="quantity" value="1" size="2" />
+-->
+                        <select name="quantity">
+  　　　　　　　　　　　　　　　　　<option value="1">1</option>
+  　　　　　　　　　　　　　　　　　<option value="2">2</option>
+  　　　　　　　　　　　　　　　　　<option value="3">3</option>
+  　　　　　　　　　　　　　　　　　<option value="4">4</option>
+  　　　　　　　　　　　　　　　　　<option value="5">5</option>
+　　　　　　　　　　　　　　 </select>
+        <input type="submit" value="カートに入れる" name="next" class="default-btn" />
+                            </div>
+                        </div>
+      </form>
+                    </div>
+                {% endfor %}
+
+                </div>
+            </div>
+        </section>
+
+</body>
+</html>
