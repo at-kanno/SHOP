@@ -421,6 +421,8 @@ def confirmation():
     else:
         zipno = tel2
     prefecture = request.form.get('prefecture')
+    if prefecture == '都道府県':
+        prefecture = ''
     city = request.form.get('city')
     town = request.form.get('town')
     building = request.form.get('building')
