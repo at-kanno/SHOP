@@ -23,10 +23,15 @@ def sendMail(to_name, to_email, order_list, total, tax, amount):
     from_email = "xxx"
     rcpt = cc_email.split(",") + bcc_email.split(",") + [to_email]
 
+    orders = ''
+    index = 1
+    for product in enumerate(order_list):
+        orders = orders + str(index) + '. ' + product + '\n'
+
     cset = 'utf-8'
 # MIMETextを作成
     message = to_name + '様\n\n' + START_MASSAGE + \
-              str(total) + "," + str(tax) + "," + str(amount) \
+              orders + str(total) + "," + str(tax) + "," + str(amount) \
               + END_MESSAGE
     subject = "【オリーブネット】ご注文ありがとうございます。"
 
