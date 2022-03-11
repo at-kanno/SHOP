@@ -25,17 +25,23 @@ def sendMail(to_name, to_email, order_list, total, tax, amount):
 
     orders = ''
 #    for i, product in enumerate(order_list):
-    for i in range(1):
-        orders = orders + str(i) + '. ' + \
-                 order_list[i][0] + ' ' + \
-                 str(order_list[i][1]) + ' ' + \
-                 str(order_list[i][2]) + '\n'
+    n = int(len(order_list))
+    for i in range(n):
+        if order_list[i][0] == '' or order_list[i][0] == 0:
+            break;
+        orders = orders + str(i+1) + '. ' + \
+                 order_list[i][0] + '      ' + \
+                 "{:,}".format(order_list[i][1]) + '冊      ' + \
+                 "{:,}".format(order_list[i][2]) + '\n'
 
     cset = 'utf-8'
 # MIMETextを作成
     message = to_name + '様\n\n' + START_MASSAGE + \
-              orders + str(total) + "," + str(tax) + "," + str(amount) \
-              + END_MESSAGE
+              '\n' + orders + '\n' + \
+              '  ' + "{:,}".format(total) + '［合計額］'\
+              '+ ' + "{:,}".format(tax) + '［消費税］  = ' + \
+              "{:,}".format(amount) + '［ご請求金額］\n' + \
+              END_MESSAGE
     subject = "【オリーブネット】ご注文ありがとうございます。"
 
     msg = MIMEText(message, 'plain', cset)
