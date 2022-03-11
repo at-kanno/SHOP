@@ -612,6 +612,8 @@ def modification():
 def updateX():
     user_id = request.form.get("user_id", "")
     id = request.form.get("id", "")
+    order_no = int(request.form.get('order_no'))
+
     if id == "":
         id = 0
 

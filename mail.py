@@ -19,14 +19,16 @@ def sendMail(to_name, to_email, order_list, total, tax, amount):
 # 送受信先
     cc_email = "at.kanno@icloud.com"
     bcc_email = "atsushi.kanno@nifty.com"
-    from_email = "オリーブネット株式会社"
+#    from_email = "オリーブネット株式会社"
+    from_email = "xxx"
     rcpt = cc_email.split(",") + bcc_email.split(",") + [to_email]
 
     cset = 'utf-8'
 # MIMETextを作成
-    if message == '注文':
-        message = to_name + '様\n\n' + START_MASSAGE + amount + END_MESSAGE
-        subject = "【オリーブネット】ご注文ありがとうございます。"
+    message = to_name + '様\n\n' + START_MASSAGE + \
+              str(total) + "," + str(tax) + "," + str(amount) \
+              + END_MESSAGE
+    subject = "【オリーブネット】ご注文ありがとうございます。"
 
     msg = MIMEText(message, 'plain', cset)
     msg["Subject"] = subject
