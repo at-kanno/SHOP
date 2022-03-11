@@ -642,8 +642,18 @@ def updateX():
         mflag = False
 
     status = 0
-
     password = ""
+
+    order_list = [0 for i in range(100)]
+    order_list = getOrderList(user_id, order_no)
+
+    total = 0
+    for i in range(len(order_list)):
+        if order_list[i][0] == 0:
+            break
+        total = total + int(order_list[i][2])
+    tax = int(total * 0.1)
+    amount = total + tax
 
     try:
         if id == 0 or id == '0':
@@ -658,7 +668,10 @@ def updateX():
                                error_message='失敗しました。',
                                )
     if member == 'on' or member == 'Checked':
-        sendMail(lastname + firstname, mail_adr, password)
+        pass   # ユーザ登録
+
+    sendMail(lastname + firstname, mail_adr, order_list, total, tax, amount)
+
     return render_template('success.html',
                            user_id=user_id,
                            message='成功しました。',

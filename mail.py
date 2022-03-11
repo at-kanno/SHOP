@@ -7,14 +7,14 @@ import ssl
 LOGIN_URL = 'http://www.olivenet.co.jp:6000/'
 START_MASSAGE = 'ご注文ありがとうございます。'
 
-MAIN_MESSAGE1 = '。'
+MAIN_MESSAGE1 = 'ご注文の内容をご確認ください。'
 
 END_MESSAGE = '\n\n  オリーブネット株式会社\n\n  staff@olivenet.co.jp'
 
 base_path = os.path.dirname(__file__)
 db_path = base_path + '/exam.sqlite'
 
-def sendMail(to_name, to_email, message):
+def sendMail(to_name, to_email, order_list, total, tax, amount):
 
 # 送受信先
     cc_email = "at.kanno@icloud.com"
@@ -25,7 +25,7 @@ def sendMail(to_name, to_email, message):
     cset = 'utf-8'
 # MIMETextを作成
     if message == '注文':
-        message = to_name + '様、\n\n' + START_MASSAGE + END_MESSAGE
+        message = to_name + '様\n\n' + START_MASSAGE + amount + END_MESSAGE
         subject = "【オリーブネット】ご注文ありがとうございます。"
 
     msg = MIMEText(message, 'plain', cset)
