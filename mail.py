@@ -8,8 +8,13 @@ LOGIN_URL = 'http://www.olivenet.co.jp:6000/'
 START_MASSAGE = 'ご注文ありがとうございます。\n'
 
 MAIN_MESSAGE1 = 'ご注文の内容をご確認ください。\n\n'
+MAIN_MESSAGE2 = '請求金額を、以下の銀行口座へのお振込み下さい。\n入金を確認後、書籍をお送り致します。\n' + \
+    '振込み手数料は、ご負担下さい。送料は弊社で負担します。\n' + \
+    '銀行名：三菱UFJ銀行 \n' + \
+    '支店名：新座志木支店 \n' + \
+    '口座番号：普通 1510625 \n'
 
-END_MESSAGE = '\n\n  オリーブネット株式会社\n\n  staff@olivenet.co.jp'
+END_MESSAGE = '\n  オリーブネット株式会社\n\n  staff@olivenet.co.jp'
 
 base_path = os.path.dirname(__file__)
 db_path = base_path + '/exam.sqlite'
@@ -37,11 +42,11 @@ def sendMail(to_name, to_email, order_list, total, tax, amount):
     cset = 'utf-8'
 # MIMETextを作成
     message = to_name + '様\n\n' + START_MASSAGE + \
-              '\n' + orders + '\n' + \
+              MAIN_MESSAGE1 + orders + \
               '  ' + "{:,}".format(total) + '［合計額］'\
               '+ ' + "{:,}".format(tax) + '［消費税］  = ' + \
-              "{:,}".format(amount) + '［ご請求金額］\n' + \
-              END_MESSAGE
+              "{:,}".format(amount) + '［ご請求金額］\n\n' + \
+              MAIN_MESSAGE2 + END_MESSAGE
     subject = "【オリーブネット】ご注文ありがとうございます。"
 
     msg = MIMEText(message, 'plain', cset)
