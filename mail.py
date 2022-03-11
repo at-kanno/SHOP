@@ -5,9 +5,9 @@ from email.header import Header
 import ssl
 
 LOGIN_URL = 'http://www.olivenet.co.jp:6000/'
-START_MASSAGE = 'ご注文ありがとうございます。'
+START_MASSAGE = 'ご注文ありがとうございます。\n'
 
-MAIN_MESSAGE1 = 'ご注文の内容をご確認ください。'
+MAIN_MESSAGE1 = 'ご注文の内容をご確認ください。\n\n'
 
 END_MESSAGE = '\n\n  オリーブネット株式会社\n\n  staff@olivenet.co.jp'
 
@@ -24,9 +24,12 @@ def sendMail(to_name, to_email, order_list, total, tax, amount):
     rcpt = cc_email.split(",") + bcc_email.split(",") + [to_email]
 
     orders = ''
-    index = 1
-    for product in enumerate(order_list):
-        orders = orders + str(index) + '. ' + product + '\n'
+#    for i, product in enumerate(order_list):
+    for i in range(1):
+        orders = orders + str(i) + '. ' + \
+                 order_list[i][0] + ' ' + \
+                 str(order_list[i][1]) + ' ' + \
+                 str(order_list[i][2]) + '\n'
 
     cset = 'utf-8'
 # MIMETextを作成
