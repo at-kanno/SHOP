@@ -544,7 +544,7 @@ def confirmation():
                            order_list=order_list,
                            total=total,
                            tax=tax,
-                           amount=amount,
+                           total_amount=amount,
                            )
 
 

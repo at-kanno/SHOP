@@ -46,6 +46,17 @@
         </tr>
     {% endif %}
 {% endfor %}
+        <tr>
+            <td align="left" style="padding : 0px 10px;">
+                税金</td><td></td>
+            <td align="right" style="padding : 0px 10px;">{{ "{:,d}".format(tax) }}</td>
+        </tr>
+        <tr>
+            <td align="left" style="padding : 0px 10px;">
+                総額</td><td></td>
+            <td align="right" style="padding : 0px 10px;">
+                {{ "{:,d}".format(total_amount) }}</td>
+        </tr>
         </table>
 
 <form action="/updateX" method="POST">
@@ -76,6 +87,8 @@
         <input type="hidden" name="mail_adr" value={{ mail_adr }} />
         <input type="hidden" name="user_id" value={{ user_id }} />
         <input type="hidden" name="order_no" value={{ order_no }} />
+        <input type="hidden" name="tax" value={{ tax }} />
+        <input type="hidden" name="total_amount" value={{ total_amount }} />
         <input type="hidden" name="id" value={{ id }} />
 
         <input type="button" onclick="history.back()" value="戻る"></input>
