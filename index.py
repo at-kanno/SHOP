@@ -676,7 +676,7 @@ def updateX():
 
     return render_template('success.html',
                            user_id=user_id,
-                           message='成功しました。',
+                           message='注文を承りました。<br>登録したメールアドレスにメールを送信しましたので、ご確認ください。',
                            )
 
 if __name__ == "__main__":
