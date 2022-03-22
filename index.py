@@ -4,9 +4,18 @@ import sqlite3, os
 from users import makePassword, addUser, modifyUser,check_login
 from mail import sendMail
 from orders import saveOrder, getOrderList
+# SSL
+import ssl
+from flask_talisman import Talisman
+base_path = os.path.dirname(__file__)
+FILES_DIR = base_path + '/static/'
+
 
 app = Flask(__name__)
 app.secret_key = "cairocoders-ednalan"
+Talisman(app, content_security_policy=None)
+#context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+#context.load_cert_chain(FILES_DIR + 'cert.crt', FILES_DIR + 'server_secret.key')
 
 base_path = os.path.dirname(__file__)
 db_path = base_path + '/exam.sqlite'
@@ -74,6 +83,31 @@ def products():
     finally:
         cursor.close()
         conn.close()
+
+@app.route("/generate", methods=["POST"])
+def generate():
+    if request.method == "POST":
+        question = request.form["question"]
+        r = requests.post(f"http://api:5001/generate?context={question}&max_length=100")
+        if r.status_code != 200:
+            abort(400)
+
+        content = json.loads(r.content)
+
+        if "horoscope" not in content:
+            abort(400)
+
+        if "context" not in content:
+            abort(400)
+
+        return render_template(
+            "horoscope.html",
+            question=content["context"],
+            horoscope=content["horoscope"],
+        )
+    else:
+        abort(404)
+
 
 @app.route('/add', methods=['POST'])
 def add_product_to_cart():
@@ -681,3 +715,4 @@ def updateX():
 
 if __name__ == "__main__":
     app.run(debug=True)
+#    app.run(host='0.0.0.0', port=800, ssl_context=context, threaded=True, debug=True)
